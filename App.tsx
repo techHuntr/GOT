@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, SafeAreaView, View, Dimensions } from "react-native";
+import Charectors from "./app/Screens/Charectors";
+import store from "./app/redux/store";
+import { Provider as ReduxProvider } from "react-redux";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <ReduxProvider store={store}>
+      <SafeAreaView style={styles.container}>
+        <StatusBar style="auto" />
+        {/*filter to do*/}
+        <Charectors />
+      </SafeAreaView>
+    </ReduxProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexGrow: 1,
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
 });
