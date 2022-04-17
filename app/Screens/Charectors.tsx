@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { FlatList, SafeAreaView, View, Dimensions, Button } from "react-native";
 import styled from "styled-components";
 import CharectorItem from "../Components/CharectorItem";
@@ -43,6 +43,8 @@ export interface titles {
 }
 export const Charectors = (props: any) => {
   const dispatch = useAppDispatch();
+  const dropdownRefTitle = useRef<SelectDropdown>(null);
+  const dropdownRefFamily = useRef<SelectDropdown>(null);
 
   const status = useAppSelector(selectCharectorApiStatus);
   const charectors = useAppSelector(selectAllCharetctors);
@@ -127,6 +129,8 @@ export const Charectors = (props: any) => {
     const selectedPageItems = getCurrentPageItems(charectors, selectedPage);
     setSelectedTitle("");
     setSelectecFamily("");
+    dropdownRefTitle?.current?.reset();
+    dropdownRefFamily?.current?.reset();
     setCurrentPageItems(selectedPageItems);
   };
   return (
@@ -141,13 +145,13 @@ export const Charectors = (props: any) => {
       <FilterWrapper>
         <Column>
           <SelectDropdown
+            ref={dropdownRefTitle}
             data={titles}
             defaultButtonText={"select title"}
             buttonStyle={{ width: 100 }}
             defaultValue={selctedTitle}
             onSelect={(selectedItem, index) => {
               setSelectedTitle(selectedItem);
-              console.log(selectedItem, index);
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem;
@@ -161,11 +165,12 @@ export const Charectors = (props: any) => {
         <Column>
           <SelectDropdown
             data={families}
+            ref={dropdownRefFamily}
             defaultButtonText={"select family"}
             buttonStyle={{ width: 100 }}
             defaultValue={selectedFamily}
             onSelect={(selectedItem, index) => {
-              setSelectedTitle(selectedItem);
+              setSelectecFamily(selectedItem);
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem;
