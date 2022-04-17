@@ -3,7 +3,6 @@ import { FlatList, SafeAreaView, View, Dimensions, Button } from "react-native";
 import styled from "styled-components";
 import CharectorItem from "../Components/CharectorItem";
 const windowWidth = Dimensions.get("window").width;
-import RNPickerSelect from "react-native-picker-select";
 import { Charector } from "../modals/Charector";
 import { useAppDispatch, useAppSelector } from "../redux/stateHooks";
 import {
@@ -167,7 +166,6 @@ export const Charectors = (props: any) => {
             defaultValue={selectedFamily}
             onSelect={(selectedItem, index) => {
               setSelectedTitle(selectedItem);
-              console.log(selectedItem, index);
             }}
             buttonTextAfterSelection={(selectedItem, index) => {
               return selectedItem;
