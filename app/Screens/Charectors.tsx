@@ -16,6 +16,7 @@ import { API_STATUS, PAGE_SIZE } from "../Constants";
 import { PageFooter } from "../Components/PageFooter";
 import { normalize } from "../utils/scaling";
 import { getCurrentPageItems } from "../utils/helpers";
+import SelectDropdown from "react-native-select-dropdown";
 
 const FilterWrapper = styled(View)`
   width: ${windowWidth}px;
@@ -50,11 +51,11 @@ export const Charectors = (props: any) => {
 
   const [selctedTitle, setSelectedTitle] = React.useState("");
   const [selectedFamily, setSelectecFamily] = React.useState("");
-  const [families, setFamilies] = React.useState<titles[]>([]);
+  const [families, setFamilies] = React.useState<string[]>([]);
   const [selectedPage, setSelectedPage] = React.useState(1);
   const [currentPageItems, setCurrentPageItems] = React.useState<Charector[]>();
 
-  const [titles, setTitles] = React.useState<titles[]>([]);
+  const [titles, setTitles] = React.useState<string[]>([]);
 
   const makeCharectorApiRequest = useCallback(() => {
     dispatch<any>(fetchAllCharectors());
@@ -73,13 +74,11 @@ export const Charectors = (props: any) => {
   }, [status, dispatch]);
 
   const getTitles = () => {
-    let titleList: titles[] = [];
+    let titleList: string[] = [];
     try {
       charectors.forEach((charector: Charector) => {
-        if (
-          !titles.includes({ label: charector.title, value: charector.title })
-        ) {
-          titleList.push({ label: charector.title, value: charector.title });
+        if (!titles.includes(charector.title)) {
+          titleList.push(charector.title);
         }
       });
     } catch (error) {
@@ -89,16 +88,11 @@ export const Charectors = (props: any) => {
   };
 
   const getFamilies = () => {
-    let familyList: titles[] = [];
+    let familyList: string[] = [];
     try {
       charectors.forEach((charector) => {
-        if (
-          !families.includes({
-            label: charector.family,
-            value: charector.family,
-          })
-        ) {
-          familyList.push({ label: charector.family, value: charector.family });
+        if (!families.includes(charector.family)) {
+          familyList.push(charector.family);
         }
       });
     } catch (error) {
@@ -147,29 +141,41 @@ export const Charectors = (props: any) => {
     >
       <FilterWrapper>
         <Column>
-          <RNPickerSelect
-            style={{
-              inputAndroidContainer: {},
+          <SelectDropdown
+            data={titles}
+            defaultButtonText={"select title"}
+            buttonStyle={{ width: 100 }}
+            defaultValue={selctedTitle}
+            onSelect={(selectedItem, index) => {
+              setSelectedTitle(selectedItem);
+              console.log(selectedItem, index);
             }}
-            textInputProps={{
-              numberOfLines: 1,
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
             }}
-            value={selctedTitle}
-            onValueChange={(value) => setSelectedTitle(value)}
-            items={titles}
+            dropdownIconPosition="right"
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
           />
         </Column>
         <Column>
-          <RNPickerSelect
-            style={{
-              inputAndroidContainer: {},
+          <SelectDropdown
+            data={families}
+            defaultButtonText={"select title"}
+            buttonStyle={{ width: 100 }}
+            defaultValue={selectedFamily}
+            onSelect={(selectedItem, index) => {
+              setSelectedTitle(selectedItem);
+              console.log(selectedItem, index);
             }}
-            textInputProps={{
-              numberOfLines: 1,
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
             }}
-            value={selectedFamily}
-            onValueChange={(value) => setSelectecFamily(value)}
-            items={families}
+            dropdownIconPosition="right"
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
           />
         </Column>
         <Column>
