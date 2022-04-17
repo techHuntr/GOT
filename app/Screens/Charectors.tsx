@@ -162,7 +162,7 @@ export const Charectors = (props: any) => {
         <Column>
           <SelectDropdown
             data={families}
-            defaultButtonText={"select title"}
+            defaultButtonText={"select family"}
             buttonStyle={{ width: 100 }}
             defaultValue={selectedFamily}
             onSelect={(selectedItem, index) => {
